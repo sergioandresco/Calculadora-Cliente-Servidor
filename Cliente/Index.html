@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.css">
+
+
+    <title>Calculadora</title>
+
+</head>
+
+<body>
+    <form method="post">
+        <div class="container">
+            <div class="calculadora">
+                <fieldset class="display">
+                    <div id="campo2"></div>
+                    <div id="campo1"></div>
+                </fieldset>
+                <button type="button" class="col-2" onclick="borrarTodo()">AC</button>
+                <button type="button" onclick="eliminarCaracter()">C</button>
+                <button type="button" class="operador" onclick="operaciones('%')">%</button>
+                <button type="button" class="numero" onclick="insertarNumero(7)">7</button>
+                <button type="button" class="numero" onclick="insertarNumero(8)">8</button>
+                <button type="button" class="numero" onclick="insertarNumero(9)">9</button>
+                <button type="button" class="operador" onclick="operaciones('X')">X</button>
+                <button type="button" class="numero" onclick="insertarNumero(4)">4</button>
+                <button type="button" class="numero" onclick="insertarNumero(5)">5</button>
+                <button type="button" class="numero" onclick="insertarNumero(6)">6</button>
+                <button type="button" class="operador" onclick="operaciones('-')">-</button>
+                <button type="button" class="numero" onclick="insertarNumero(1)">1</button>
+                <button type="button" class="numero" onclick="insertarNumero(2)">2</button>
+                <button type="button" class="numero" onclick="insertarNumero(3)">3</button>
+                <button type="button" class="operador" onclick="operaciones('+')">+</button>
+                <button type="button" class="col-2 numero" id="cero" onclick="insertarNumero(0)">0</button>
+                <button type="button" class="numero" onclick="escribirPunto()">.</button>
+                <button type="button" class="operador" name="calcular" id="igual" onclick="">=</button>
+            </div>
+        </div>
+    </form>
+
+    <script type="text/javascript">
+        pantalla1 = document.getElementById('campo1');
+        pantalla2 = document.getElementById('campo2');
+
+        function getLastChar() {
+            var len = pantalla2.lenght;
+            if (len) {
+                return pantalla2[len - 1];
+            };
+            return "";
+        }
+
+        function insertarNumero(numero) {
+            pantalla1.textContent = pantalla1.textContent + numero;
+        }
+
+        function borrarTodo() {
+            pantalla1.textContent = "";
+            pantalla2.textContent = "";
+        }
+
+        function eliminarCaracter() {
+            caracterActual = pantalla1.textContent;
+            caracterNuevo = caracterActual.substring(0, caracterActual.lenght - 1);
+            pantalla1.textContent = caracterNuevo;
+        }
+
+        function hayPunto(display) {
+            punto = false;
+            for (i = 0; i < display.lenght; i++) {
+                if (display.substring(i, i + 1) == ".") {
+                    punto = true;
+                    break;
+                }
+            }
+            return punto;
+        }
+
+        function escribirPunto() {
+            if (pantalla1.textContent.lenght == "") {
+                pantalla1.textContent = "0.";
+            } else {
+                if (!hayPunto(pantalla1.textContent)) {
+                    pantalla1.textContent = pantalla1.textContent + ".";
+                }
+            }
+        }
+
+        function operaciones(operador) {
+            if (pantalla2.textContent == "" && pantalla1 != "") {
+                memoria = pantalla1.textContent;
+                operando = operador;
+                pantalla2.textContent = pantalla1.textContent + operador;
+                pantalla1.textContent = "";
+            }
+        }
+    </script>
+
+    <script src="fetch.js" type="text/javascript"></script>
+
+</body>
+
+</html>
