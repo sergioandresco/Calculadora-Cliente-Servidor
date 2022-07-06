@@ -38,7 +38,7 @@
                 <button type="button" class="operador" onclick="operaciones('+')">+</button>
                 <button type="button" class="col-2 numero" id="cero" onclick="insertarNumero(0)">0</button>
                 <button type="button" class="numero" onclick="escribirPunto()">.</button>
-                <button type="button" class="operador" name="calcular" id="igual" onclick="">=</button>
+                <button type="submit" class="operador" name="calcular" id="igual" onclick="calcular();">=</button>
             </div>
         </div>
     </form>
@@ -93,15 +93,41 @@
 
         function operaciones(operador) {
             if (pantalla2.textContent == "" && pantalla1 != "") {
-                memoria = pantalla1.textContent;
+                memoria = pantalla1.value;
                 operando = operador;
                 pantalla2.textContent = pantalla1.textContent + operador;
                 pantalla1.textContent = "";
             }
         }
+
+        function calcular() {
+            if (pantalla1.textContent != "" && pantalla2 != "") {
+                operador = pantalla2.textContent.slice(-1);
+                memoria = pantalla2.textContent.substring(0, pantalla2.textContent.lenght - 1);
+                memoria2 = pantalla1.textContent;
+
+            }
+
+            fetch(
+                '../Servidor/Metodo.php',
+
+                {
+                    method: 'POST',
+                    data: {
+                        'operacion': operador,
+                        'parte1': memoria,
+                        'parte2': memoria2
+                    }
+                }
+            )
+            then(function(resultado) {
+                pantalla2.textContent = "";
+                pantalla1.textContent = resultado;
+            })
+        }
     </script>
 
-    <script src="fetch.js" type="text/javascript"></script>
+
 
 </body>
 
